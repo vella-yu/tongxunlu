@@ -3,10 +3,12 @@ name: Deploy GitHub Pages
 
 # 触发条件：推送到main分支时触发
 on:
+
   push:
     branches: ["main"]  # 确认你的分支是main，不是master（如果是master就改成master）
 
 permissions:  # 必须加！否则部署权限不足
+
   contents: read
   pages: write
   id-token: write
