@@ -3,19 +3,20 @@ name: Deploy GitHub Pages
 
 # 触发条件：推送到main分支时触发
 on:
-
   push:
     branches: ["main"]  # 确认你的分支是main，不是master（如果是master就改成master）
 
 permissions:  # 必须加！否则部署权限不足
-
   contents: read
   pages: write
   id-token: write
+
 # 工作流任务
 jobs:
- deploy:
+  deploy:
     runs-on: ubuntu-latest
+    environment:  # 新增！修复 "Missing environment" 错误
+      name: github-pages  # 固定名称，不可修改
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,14 +27,8 @@ jobs:
       - name: Upload static files
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./  # 重点：HTML文件在根目录写./，在dist写./dist，在docs写./docs
+          path: ./  # 你的HTML在根目录（E:\web\tongxunlu），此配置正确，无需修改！
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         if: github.ref == 'refs/heads/main'
-
-
-
-  
-
-
