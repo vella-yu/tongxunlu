@@ -4,7 +4,12 @@ name: Deploy GitHub Pages
 # 触发条件：推送到main分支时触发
 on:
   push:
-    branches: [ main ]
+    branches: [main]  # 确认分支名正确
+# 新增/补全权限配置
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 # 工作流任务
 jobs:
