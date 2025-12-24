@@ -1,0 +1,28 @@
+# 工作流名称
+name: Deploy GitHub Pages
+
+# 触发条件：推送到main分支时触发
+on:
+  push:
+    branches: [ main ]
+
+# 工作流任务
+jobs:
+  deploy:
+    # 运行环境：Ubuntu最新版
+    runs-on: ubuntu-latest
+    steps:
+      # 步骤1：拉取仓库代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：部署到GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          # GitHub Token（自动生成，无需手动配置）
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 部署的文件来源（根目录，若有打包后的dist目录，改为dist）
+          publish_dir: ./
+          # 部署到gh-pages分支（GitHub Pages默认读取此分支）
+          publish_branch: gh-pages
