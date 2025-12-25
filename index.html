@@ -44,6 +44,33 @@
                 margin-top: 0.5rem;
                 display: none;
             }
+            /* 分页样式 */
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+            .page-btn {
+                padding: 0.25rem 0.75rem;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                background-color: white;
+                cursor: pointer;
+            }
+            .page-btn:hover {
+                background-color: #f0f0f0;
+            }
+            .page-btn.active {
+                background-color: #3b82f6;
+                color: white;
+                border-color: #3b82f6;
+            }
+            .page-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
     </style>
 </head>
@@ -113,6 +140,20 @@
             </table>
         </div>
 
+        <!-- 分页控件 -->
+        <div id="paginationContainer" class="pagination hidden">
+            <button id="prevPage" class="page-btn" disabled>
+                <i class="fa fa-chevron-left"></i> 上一页
+            </button>
+            <div id="pageNumbers" class="flex gap-0.5"></div>
+            <button id="nextPage" class="page-btn" disabled>
+                下一页 <i class="fa fa-chevron-right"></i>
+            </button>
+            <span id="pageInfo" class="text-sm text-gray-600 ml-2 text-no-vertical">
+                第 <span id="currentPageNum">1</span> 页 / 共 <span id="totalPagesNum">1</span> 页
+            </span>
+        </div>
+
         <!-- 空数据提示 -->
         <div id="emptyTip" class="hidden text-center py-10 text-gray-500">
             <i class="fa fa-inbox text-3xl mb-2"></i>
@@ -180,7 +221,63 @@
 ["四川", "四川晨沐建设工程有限公司", "邓世明", "现场负责人", "13890112918", "游仙街道办石马镇部分渠道恢复供水功能项目"],
 ["重庆", "重庆泽润水务有限公司", "石流", "现场技术负责人", "18875327789", "忠县2025年农村供水水源抗旱及城乡供水一体化工程,忠县移民安置区江北片区供水保障提升工程"],
 ["重庆", "重庆拓开建设有限公司", "王蜀轩", "现场负责人", "15320696666", "重庆市开州区金峰、厚坝等农村供水一改三提工程,重庆市开州区赵家、渠口等农村供水一改三提工程"],
-["四川", "四川谦源建筑工程有限公司", "陈元衡", "现场负责人", "13595488358", "重庆市綦江区小型灌区项目施工梅家沟片区"]
+["四川", "四川谦源建筑工程有限公司", "陈元衡", "现场负责人", "13595488358", "重庆市綦江区小型灌区项目施工梅家沟片区"],
+["广西", "北京建谊高能建筑设计研究院有限公司广西分公司", "暂无", "", "", ""],
+["广西", "广东省建筑设计研究院有限公司广西分公司", "暂无", "", "", ""],
+["广西", "广西博驰规划设计有限公司", "暂无", "", "", ""],
+["广西", "广西大学设计院有限公司", "刘晓聪", "给排水设计师", "18376795047", "北海高新区福成新区污水处理厂及配套污水提升泵站项目"],
+["广西", "广西大学设计院有限公司", "黎达荣", "设计总工", "18775700701", ""],
+["广西", "广西方泽建筑设计有限责任公司", "纪平", "设计总工", "13768111876", "宁明县乡镇供水巩固提升工程"],
+["广西", "广西富盟工程设计有限公司", "廖振科", "设计总工", "18270060335", ""],
+["广西", "广西汉和建筑规划设计有限公司", "暂无", "", "", ""],
+["广西", "广西河图建设工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西宏源水利工程有限公司", "张先生", "给排水设计师", "13977173708", "心兴宁区农村供水管网工程二期"],
+["广西", "广西华晟工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西华景城建筑设计有限公司", "朱锴", "给排水设计师", "18878886889", ""],
+["广西", "广西建工第五建筑工程集团有限公司设计研究院", "暂无", "", "", ""],
+["广西", "广西交通设计集团有限公司", "满勇", "设计总工", "15281205026", "武鸣区建成区排水管网改造工程一期项目EPC"],
+["广西", "广西景瑞工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西凯隆工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西茗湖水利工程设计有限责任公司", "暂无", "", "", ""],
+["广西", "广西南宁水利电力设计院有限公司", "黄蒙", "水工设计师", "13367715198", ""],
+["广西", "广西南宁水利电力设计院有限公司", "马振", "主任", "13807712212", ""],
+["广西", "广西瑞设工程设计咨询有限公司", "梁晓翰", "设计总工", "13393645928", ""],
+["广西", "广西尚泽水利工程设计有限公司", "韦承延", "水利工程师", "17677365183", "邕宁区蒲庙镇新生集中供水工程（一期）项目"],
+["广西", "广西昇合工程设计咨询有限公司", "暂无", "", "", ""],
+["广西", "广西通信规划设计咨询有限公司", "暂无", "", "", ""],
+["广西", "广西鑫润工程设计有限公司", "颜乐", "院长", "13657879607", ""],
+["广西", "广西中科工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西中亿宇工程设计有限公司", "暂无", "", "", ""],
+["广西", "广西珠委南宁勘测设计院有限公司", "暂无", "", "", ""],
+["广西", "广西壮族自治区城乡规划设计院", "梁振文", "给排水设计师", "17758631611", "百色市迎龙片区排水管网工程"],
+["广西", "广西壮族自治区城乡规划设计院", "周圣长", "设计总工", "19968188950", "龙州县城乡集中供水污水一体化项目"],
+["广西", "广西壮族自治区建筑科学研究设计院", "胡波朗", "建筑设计师", "13978833349", "崇左市江州区城乡供水一体化工程"],
+["广西", "广西壮族自治区南宁综合设计院有限公司", "暂无", "", "", ""],
+["广西", "广西壮族自治区水利电力勘测设计研究院有限责任公司", "潘润峰", "设计总工", "13878185647", "罗城仫佬族自治县部分乡镇农村规模化供水工程"],
+["广西", "广西壮族自治区水利电力勘测设计研究院有限责任公司", "黄秘昌", "设计总工", "13597006695", "环北部湾广西水资源配置工程,广西南宁市邕北灌区工程"],
+["广西", "广西壮族自治区水利电力勘测设计研究院有限责任公司", "孟凡雷", "设计总工", "15077163880", "广西北海市洪潮江水库灌区“十五五”续建配套与现代化改造项目"],
+["广西", "皓筠工程设计有限公司广西第二分公司", "暂无", "", "", ""],
+["广西", "华蓝设计（集团）有限公司", "林先生", "给排水设计师", "15907719379", "百色市龙景片区排水管网"],
+["广西", "华蓝设计（集团）有限公司", "覃雪明", "给排水设计师", "18677188066", "崇左市城区供排水一体化"],
+["广西", "华蓝设计（集团）有限公司", "杨自雄", "给排水设计师", "18677179582", "崇左市城区供排水一体化"],
+["广西", "南宁市建筑规划设计集团有限公司", "黄竞兴", "给排水设计师", "18776905157", "楞塘中湖排水系统改造工程"],
+["广西", "南宁市建筑规划设计集团有限公司", "韦宁", "给排水设计师", "13977133699", "楞塘中湖排水系统改造工程"],
+["广西", "南宁市勘测设计院集团有限公司", "温慧锋", "给排水设计师", "18078183641", "南宁市林里桥片区雨污分流改造工程,横州市城区地下管网综合改造工程二期"],
+["广西", "南宁市勘测设计院集团有限公司", "覃仁军", "给排水设计师", "19162289686", "横州市城区地下管网综合改造工程二期"],
+["广西", "南宁市南水市政工程设计有限公司", "农伟文", "给排水设计师", "15994428369", "南宁市江南区老旧供水管网改造工程"],
+["广西", "南宁市南水市政工程设计有限公司", "鲁荻", "给排水设计师", "13907861610", "南宁市江南区老旧供水管网改造工程"],
+["广西", "南宁市南水市政工程设计有限公司", "滕慧玲", "给排水设计师", "15977772344", "南宁市江南区老旧供水管网改造工程"],
+["广西", "厦门东翔工程设计有限公司广西分公司", "暂无", "", "", ""],
+["广西", "首辅工程设计有限公司广西分公司", "暂无", "", "", ""],
+["广西", "中北工程设计咨询有限公司广西分公司", "暂无", "", "", ""],
+["广西", "中国能源建设集团广西电力设计研究院有限公司", "张金强", "设计负责人", "13877158162", "来宾抽水蓄能电站项目"],
+["广西", "中恒工程设计院有限公司广西分公司", "暂无", "", "", ""],
+["广西", "中煤科工重庆设计研究院（集团）有限公司广西分公司", "暂无", "", "", ""],
+["广西", "中铁第四勘察设计院集团有限公司广西分院", "暂无", "", "", ""],
+["广西", "中铁四院集团南宁勘察设计院有限公司", "周玲", "给排水设计师", "13878125350", ""],
+["广西", "中物联规划设计研究院有限公司", "暂无", "", "", ""],
+
+["四川", "中外建设（四川）有限公司", "王安", "", "18190695247", "泸定县新城自来水厂取水及输配水管网工程"]
             // 新增数据示例：["省份", "单位名称", "联系人", "职务", "电话", "关联项目"]
            ];
         // ====================== 【数据修改结束】 ======================
@@ -189,6 +286,9 @@
         let contactData = []; // 处理后的完整数据
         let allCompanies = []; // 所有唯一单位列表
         let currentFilterCompany = ''; // 当前选中的筛选单位
+        let currentPage = 1; // 当前页码
+        const pageSize = 50; // 每页显示数量
+        let filteredData = []; // 筛选后的数据
 
         // DOM元素提前获取
         const contactTable = document.getElementById('contactTable');
@@ -201,6 +301,12 @@
         const clearCompanyFilterBtn = document.getElementById('clearCompanyFilter');
         const noCompanyTip = document.getElementById('noCompanyTip');
         const companySuggestions = document.getElementById('companySuggestions');
+        const paginationContainer = document.getElementById('paginationContainer');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageNumbersContainer = document.getElementById('pageNumbers');
+        const currentPageNumEl = document.getElementById('currentPageNum');
+        const totalPagesNumEl = document.getElementById('totalPagesNum');
 
         // 处理二维数组，转换为程序可用的格式，并合并相同单位相同联系人的关联项目
         function processTemplateData(rawData) {
@@ -254,6 +360,18 @@
 
             // 转换为数组并排序
             allCompanies = Array.from(companiesSet).sort();
+            
+            // 按单位名称升序、联系人升序排序
+            processedData.sort((a, b) => {
+                // 先比较单位名称
+                if (a.company < b.company) return -1;
+                if (a.company > b.company) return 1;
+                // 单位名称相同则比较联系人
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+            });
+            
             return processedData;
         }
 
@@ -301,7 +419,8 @@
                         noCompanyTip.style.display = 'none';
                         // 显示筛选提示
                         showFilterTip(selectedCompany);
-                        // 筛选并渲染表格
+                        // 筛选并渲染表格，重置到第一页
+                        currentPage = 1;
                         filterAndRenderTable();
                     });
                 });
@@ -325,34 +444,96 @@
             document.getElementById('companyFilterInput').value = '';
             document.getElementById('currentFilterTip').classList.add('hidden');
             noCompanyTip.style.display = 'none'; // 清除提示
+            currentPage = 1; // 重置到第一页
             filterAndRenderTable();
         }
 
         // 筛选并渲染表格（仅按单位筛选）
         function filterAndRenderTable() {
             // 按单位筛选
-            let filteredData = contactData;
+            filteredData = contactData;
             if (currentFilterCompany) {
                 filteredData = contactData.filter(item => 
                     item.company === currentFilterCompany
                 );
             }
 
-            // 渲染表格
-            initTable(filteredData);
+            // 渲染分页和当前页数据
+            renderPagination();
+            renderCurrentPageData();
         }
 
-        // 初始化表格（适配新增的省份列）
-        function initTable(data) {
+        // 计算总页数
+        function getTotalPages() {
+            return Math.ceil(filteredData.length / pageSize);
+        }
+
+        // 获取当前页的数据
+        function getCurrentPageData() {
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            return filteredData.slice(startIndex, endIndex);
+        }
+
+        // 渲染分页控件
+        function renderPagination() {
+            const totalPages = getTotalPages();
+            
+            // 更新分页信息
+            currentPageNumEl.textContent = currentPage;
+            totalPagesNumEl.textContent = totalPages;
+            
+            // 控制分页控件显示
+            if (filteredData.length <= pageSize) {
+                paginationContainer.classList.add('hidden');
+            } else {
+                paginationContainer.classList.remove('hidden');
+            }
+            
+            // 更新上一页/下一页按钮状态
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            
+            // 渲染页码按钮
+            pageNumbersContainer.innerHTML = '';
+            
+            // 最多显示10个页码按钮
+            const maxVisiblePages = 10;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = startPage + maxVisiblePages - 1;
+            
+            // 调整结束页码
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // 添加页码按钮
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderPagination();
+                    renderCurrentPageData();
+                });
+                pageNumbersContainer.appendChild(pageBtn);
+            }
+        }
+
+        // 渲染当前页数据
+        function renderCurrentPageData() {
+            const currentData = getCurrentPageData();
             contactTable.innerHTML = '';
             emptyTip.classList.add('hidden');
             
-            if (data.length === 0) {
+            if (currentData.length === 0) {
                 emptyTip.classList.remove('hidden');
                 return;
             }
 
-            data.forEach((item, index) => {
+            currentData.forEach((item, index) => {
                 const tr = document.createElement('tr');
                 tr.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
                 tr.innerHTML = `
@@ -433,7 +614,27 @@
             // 重置按钮事件（清空所有筛选）
             resetBtn.addEventListener('click', function() {
                 clearCompanyFilter();
-                initTable(contactData);
+                currentPage = 1;
+                renderPagination();
+                renderCurrentPageData();
+            });
+
+            // 分页按钮事件
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPagination();
+                    renderCurrentPageData();
+                }
+            });
+
+            nextPageBtn.addEventListener('click', () => {
+                const totalPages = getTotalPages();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPagination();
+                    renderCurrentPageData();
+                }
             });
 
             // 弹窗关闭事件
@@ -458,8 +659,11 @@
         window.addEventListener('DOMContentLoaded', function() {
             // 处理数据
             contactData = processTemplateData(templateData);
-            // 初始化表格
-            initTable(contactData);
+            // 初始化筛选数据
+            filteredData = [...contactData];
+            // 初始化表格和分页
+            renderPagination();
+            renderCurrentPageData();
             // 初始化事件
             initEvents();
         });
