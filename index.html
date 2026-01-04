@@ -71,18 +71,69 @@
                 opacity: 0.5;
                 cursor: not-allowed;
             }
+            /* 登录验证弹窗样式 */
+            .auth-modal {
+                position: fixed;
+                inset: 0;
+                background-color: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+            .auth-modal-content {
+                background-color: white;
+                border-radius: 8px;
+                padding: 2rem;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            }
+            .auth-error-tip {
+                color: #ef4444;
+                font-size: 0.875rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- 页面容器 -->
-    <div class="container mx-auto px-4 py-6 max-w-7xl">
+    <!-- 登录验证弹窗 -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-modal-content">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center text-no-vertical">
+                <i class="fa fa-lock mr-2"></i>身份验证
+            </h3>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2 text-no-vertical">验证问题：你的所属公司是？</label>
+                <input 
+                    type="text" 
+                    id="authAnswerInput"
+                    placeholder="请输入答案"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-no-vertical"
+                >
+                <div id="authErrorTip" class="auth-error-tip text-no-vertical">
+                    <i class="fa fa-exclamation-circle mr-1"></i>答案错误，请重新输入！
+                </div>
+            </div>
+            <button 
+                id="authSubmitBtn"
+                class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-no-vertical"
+            >
+                验证登录
+            </button>
+        </div>
+    </div>
+
+    <!-- 页面容器（默认隐藏，验证通过后显示） -->
+    <div id="mainContent" class="container mx-auto px-4 py-6 max-w-7xl hidden">
         <!-- 标题 -->
         <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-6 text-center text-no-vertical">
             <i class="fa fa-address-book-o mr-2"></i>企业通讯录（测试版）
             <span class="text-sm font-normal text-gray-500 ml-2">(收录于2025年12月)</span>
         </h1>
-<p class="text-center text-sm text-gray-400 mb-4 text-no-vertical">参考电话，仅作内部业务联系使用！</p>
+        <p class="text-center text-sm text-gray-400 mb-4 text-no-vertical">参考电话，仅作内部业务联系使用！</p>
         <!-- 仅保留单位筛选区域 -->
         <div class="mb-6 relative">
             <label class="block text-sm font-medium text-gray-700 mb-1 text-no-vertical">单位筛选（从下拉框选择）：</label>
@@ -182,7 +233,9 @@
     </div>
 
     <script>
-        // ====================== 【仅需修改这里的二维数组即可更新通讯录】 ======================
+        // ====================== 【配置项】 ======================
+        // 验证答案配置
+        const CORRECT_AUTH_ANSWER = "重庆鼎久管道有限公司";
         // 通讯录核心数据 - 二维数组格式（第1列=省份，第2列=单位名称，第3列=联系人，第4列=职务，第5列=电话，第6列=关联项目）
         const templateData = [
             ["黑龙江", "爱建信达工程咨询有限公司", "刘亮", "参与商务", "18071901086", "安宁市第二污水处理厂扩建及再生水利用工程"],
@@ -634,8 +687,8 @@
 ["北京", "中咨海外咨询有限公司", "王燕", "工艺设计师", "18615755318", "泸县城西排水管网改造工程"]
 
             // 新增数据示例：["省份", "单位名称", "联系人", "职务", "电话", "关联项目"]
-           ];
-        // ====================== 【数据修改结束】 ======================
+        ];
+        // ====================== 【配置项结束】 ======================
 
         // 全局变量
         let contactData = []; // 处理后的完整数据
@@ -646,6 +699,13 @@
         let filteredData = []; // 筛选后的数据
 
         // DOM元素提前获取
+        // 验证相关
+        const authModal = document.getElementById('authModal');
+        const authAnswerInput = document.getElementById('authAnswerInput');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authErrorTip = document.getElementById('authErrorTip');
+        const mainContent = document.getElementById('mainContent');
+        // 通讯录相关
         const contactTable = document.getElementById('contactTable');
         const emptyTip = document.getElementById('emptyTip');
         const projectModal = document.getElementById('projectModal');
@@ -663,13 +723,58 @@
         const currentPageNumEl = document.getElementById('currentPageNum');
         const totalPagesNumEl = document.getElementById('totalPagesNum');
 
+        // ====================== 【登录验证逻辑】 ======================
+        // 验证提交事件
+        authSubmitBtn.addEventListener('click', function() {
+            const userAnswer = authAnswerInput.value.trim();
+            // 清空错误提示
+            authErrorTip.style.display = 'none';
+            
+            // 验证答案
+            if (userAnswer === CORRECT_AUTH_ANSWER) {
+                // 验证通过，隐藏弹窗，显示主内容
+                authModal.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                // 初始化通讯录数据
+                initContactData();
+            } else {
+                // 答案错误，显示提示
+                authErrorTip.style.display = 'block';
+                // 输入框聚焦
+                authAnswerInput.focus();
+                // 输入框内容选中（方便重新输入）
+                authAnswerInput.select();
+            }
+        });
+
+        // 回车提交验证
+        authAnswerInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                authSubmitBtn.click();
+            }
+        });
+
+        // ====================== 【通讯录核心逻辑】 ======================
+        // 初始化通讯录数据
+        function initContactData() {
+            // 处理二维数组，转换为程序可用的格式
+            contactData = processTemplateData(templateData);
+            // 初始化筛选数据
+            filteredData = [...contactData];
+            // 初始化表格和分页
+            renderPagination();
+            renderCurrentPageData();
+            // 初始化事件
+            initEvents();
+        }
+
         // 处理二维数组，转换为程序可用的格式，并合并相同单位相同联系人的关联项目
         function processTemplateData(rawData) {
             const processedData = [];
             const companiesSet = new Set(); // 用于去重存储单位名称
             const uniqueKeyMap = new Map(); // 用于跟踪唯一记录的索引
             
-            // 遍历数组（跳过第一行表头）
+            // 遍历数组
             rawData.forEach(row => {
                 // 确保每行有至少5个必填字段（省份、单位、联系人、职务、电话）
                 if (row.length >= 5) {
@@ -946,7 +1051,7 @@
             document.body.style.overflow = '';
         }
 
-        // 初始化事件监听
+        // 初始化事件监听（通讯录相关）
         function initEvents() {
             // 单位筛选输入事件
             const companyFilterInput = document.getElementById('companyFilterInput');
@@ -1012,15 +1117,9 @@
 
         // 页面初始化
         window.addEventListener('DOMContentLoaded', function() {
-            // 处理数据
-            contactData = processTemplateData(templateData);
-            // 初始化筛选数据
-            filteredData = [...contactData];
-            // 初始化表格和分页
-            renderPagination();
-            renderCurrentPageData();
-            // 初始化事件
-            initEvents();
+            // 初始化验证弹窗（默认显示）
+            authModal.style.display = 'flex';
+            authAnswerInput.focus();
         });
     </script>
 </body>
