@@ -162,10 +162,10 @@
         @media (max-width: 768px) {
             .container { padding: 12px; }
             .auth-card { padding: 24px 16px; }
-            .search-input { font-size: 14px; }
-            .btn { padding: 8px 16px; font-size: 13px; }
-            .header-cell, .cell { padding: 12px 8px; font-size: 16px; }
-            .info-hint { padding: 10px 16px; font-size: 13px; }
+            .search-input { font-size: 12px; }
+            .btn { padding: 8px 16px; font-size: 12px; }
+            .header-cell, .cell { padding: 12px 8px; font-size: 14px; }
+            .info-hint { padding: 10px 16px; font-size: 12px; }
         }
         
         /* 搜索建议 */
@@ -213,8 +213,8 @@
         
         /* 标题样式 */
         .header-title { text-align: center; margin: 24px 0 32px; }
-        .header-title h1 { font-size: 28px; font-weight: bold; color: var(--gray-900); margin-bottom: 8px; }
-        .header-title p { color: var(--gray-500); font-size: 14px; }
+        .header-title h1 { font-size: 20px; font-weight: bold; color: var(--gray-900); margin-bottom: 8px; }
+        .header-title p { color: var(--gray-500); font-size: 12px; }
     </style>
 </head>
 <body>
@@ -277,7 +277,7 @@
                 </div>
                 
                 <div id="filterTags" style="margin-top: 16px; display: none;">
-                    <div style="font-size: 14px; color: var(--gray-600); margin-bottom: 8px;">
+                    <div style="font-size: 12px; color: var(--gray-600); margin-bottom: 8px;">
                         <span class="icon icon-filter" style="margin-right: 6px;"></span>当前筛选：
                     </div>
                     <div id="activeFilters"></div>
@@ -285,7 +285,7 @@
             </div>
 
             <!-- 提示信息 -->
-            <div style="text-align: right; font-size:12px;color: var(--gray-500)">
+            <div style="text-align: right; font-size:10px;color: var(--gray-500)">
             <span class="icon" style="margin-right: 2px;" >💡</span>
             右滑查看号码，点击号码可一键复制！
            </div>
@@ -310,7 +310,7 @@
             <!-- 空状态提示 -->
             <div id="emptyState" class="empty-state" style="display: none;">
                 <span class="icon">📭</span>
-                <h3 style="font-size: 18px; font-weight: 600; margin: 12px 0 8px; color: var(--gray-700);">暂无通讯录数据</h3>
+                <h3 style="font-size: 16px; font-weight: 600; margin: 12px 0 8px; color: var(--gray-700);">暂无通讯录数据</h3>
                 <p style="color: var(--gray-500); margin-bottom: 20px;">没有找到匹配的通讯录记录</p>
                 <button id="showAllBtn" class="btn btn-primary">
                     <span class="icon" style="margin-right: 6px;">👁️</span>查看全部数据
@@ -352,7 +352,7 @@
     <div id="projectModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 style="font-size: 18px; font-weight: 600; color: var(--gray-900);">
+                <h3 style="font-size: 16px; font-weight: 600; color: var(--gray-900);">
                     <span class="icon icon-list" style="margin-right: 8px; color: var(--blue-600);"></span>关联项目
                 </h3>
                 <button id="closeModalBtn" style="background: none; border: none; font-size: 20px; color: var(--gray-400); cursor: pointer; padding: 4px;">✕</button>
@@ -522,7 +522,7 @@
 ["广东", "中铁广州工程局集团有限公司", "胡龙博", "现场生产经理", "15129068939", "李家沱组团D干管流域污水管网整治工程"],
 ["重庆", "中铁十一局集团有限公司第五分公司", "胡彦超", "现场负责人", "15213463456", "黔江区茶园水库大坝枢纽及供水灌溉工程"],
 ["重庆", "中铁十一局集团有限公司第五分公司", "李佳", "设计总工", "18071926400", "黔江区茶园水库大坝枢纽及供水灌溉工程"],
-["贵州", "中铁五局集团有限公司", "林德全", "技术负责人", "17765582008", "安县老旧供水设施及管道改造工程（一期)"],
+["贵州", "中铁五局集团有限公司", "林德全", "技术负责人", "17765582008", "蓬安县老旧供水设施及管道改造工程（一期)"],
 ["重庆", "中冶建工集团有限公司", "刘忠春", "项目部", "18623158885", "鹿界南（南部片区）城市污水管网更新改造"],
 ["重庆", "中冶建工集团有限公司", "王胜强", "现场生产经理", "18883166627", "鹿界南（南部片区）城市污水管网更新改造"],
 ["重庆", "中冶建工集团有限公司第二建筑工程分公司", "张梨梨", "项目部", "18580071798", "鹿界南（南部片区）城市污水管网更新改造"],
@@ -1153,8 +1153,15 @@
 ["贵州", "遵义市水利水电勘测设计研究院有限责任公司", "舒静", "给排水设计师", "18792712903", "遵义市播州区城市供水管网漏损治理工程"],
 ["贵州", "遵义市水利水电勘测设计研究院有限责任公司", "苏俊杰", "给排水设计师", "14785451720", "湄潭县老城片区雨水管网改造建设项目"],
 ["贵州", "遵义市水利水电勘测设计研究院有限责任公司", "杨先文", "给排水设计师", "18798673253", ""],
+["贵州", "遵义市水利水电勘测设计研究院有限责任公司", "赵德红", "水工设计师", "18385024610", "绥阳县郑场片区城市供水提升工程"],
 ["贵州", "剑河县水务局", "张地宝", "项目部", "13314453645", "剑河县主城区及城西片区供水管网改造项目"],
-["贵州", "遵义市水利水电勘测设计研究院有限责任公司", "赵德红", "水工设计师", "18385024610", "绥阳县郑场片区城市供水提升工程"]
+["四川", "中达建诚工程管理集团有限公司", "陈延举", "设计总工", "13739471288", "广安市岳池县城南片区污水管网建设项目"],
+["四川", "江安县亿源农业投资有限公司", "周德坤", "部长", "13778955028", "江安县城乡供水一体化项目一期"],
+["四川", "江安县亿源农业投资有限公司", "张和涛", "项目部", "15181195440", ""],
+["四川", "中铁二十四局集团西南建设有限公司", "尚周", "招标部", "18879060553", ""],
+["四川", "长红华建设集团有限公司", "王长明", "法人", "18783100828", ""],
+["四川", "贵阳恒立工程管理服务有限公司", "陈文豪", "招标部", "17311985434", ""],
+["贵州", "贵阳市交通规划勘察设计院有限公司", "王帅", "给排水设计师", "15985103397", ""]
 
         ];
 
@@ -1363,7 +1370,7 @@
                         <!-- <div class="copy-hint">点击复制</div> -->
                     </div>
                     <div class="cell">
-                        <button class="btn btn-success" style="padding: 6px 10px; font-size: 14px;" onclick="showProjects(${JSON.stringify(item.projects).replace(/"/g, '&quot;')})">
+                        <button class="btn btn-success" style="padding: 6px 10px; font-size: 12px;" onclick="showProjects(${JSON.stringify(item.projects).replace(/"/g, '&quot;')})">
                             <span class="icon icon-list" style="margin-right: 0px;"></span>查看项目
                         </button>
                     </div>
